@@ -3,28 +3,29 @@ import pyautogui
 import keyboard
 import pyperclip
 
+# Configurações
+coordenadas_clicar = [(950, 453), (942, 474), (933, 500), (1014, 526), (866, 552), (957, 582)] #alterar conforme a posição do mouse
+tecla_interrupcao = 'esc'
+
+# Função para inserir texto com suporte a acentos
 def type_with_accent_support(text):
     pyperclip.copy(text)
     pyautogui.hotkey('ctrl', 'v')
 
-workbook = openpyxl.load_workbook('vendas_de_produtos.xlsx')
-vendas_sheet = workbook['vendas']
-
-
 try:
+    # Abrir a planilha Excel
+    workbook = openpyxl.load_workbook('vendas_de_produtos.xlsx')
+    vendas_sheet = workbook['vendas']
+
     for linha in vendas_sheet.iter_rows(min_row=2):
-        pyautogui.click(950, 453, duration=0.01)
-        type_with_accent_support(linha[0].value)
-        pyautogui.click(942, 474, duration=0.01)
-        type_with_accent_support(linha[1].value)
-        pyautogui.click(933, 500, duration=0.01)
-        type_with_accent_support(str(linha[2].value))
-        pyautogui.click(1014, 526, duration=0.01)
-        type_with_accent_support(linha[3].value)
-        pyautogui.click(866, 552, duration=0.01)
-        pyautogui.click(957, 582, duration=0.01)
-        if keyboard.is_pressed('esc'):
+        for coord in coordenadas_clicar:
+            pyautogui.click(coord[0], coord[1], duration=0.01)
+            type_with_accent_support(str(linha[coordenadas_clicar.index(coord)].value))
+        if keyboard.is_pressed(tecla_interrupcao):
             print("Programa interrompido pelo usuário.")
             break
-except KeyboardInterrupt:
-    print("Programa interrompido pelo usuário.")
+
+except FileNotFoundError:
+    print("Arquivo 'vendas_de_produtos.xlsx' não encontrado.")
+except Exception as e:
+    print(f"Ocorreu um erro: {str(e)}")

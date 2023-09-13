@@ -16,3 +16,9 @@ Você pode instalá-las usando o seguinte comando:
 
 ```bash
 pip install openpyxl pyautogui keyboard pyperclip
+
+
+
+
+video em funcionamento -> https://github.com/HeltonFranca/preenchimento-automatico/assets/144186013/b110a52e-73ba-4cb6-8590-26bc3702a924
+
